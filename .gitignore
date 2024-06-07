@@ -4,6 +4,8 @@
 ### Django ###
 .env
 
+*/migrations/0*.py
+
 *.log
 *.pot
 *.pyc

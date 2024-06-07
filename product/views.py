@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from product.models import Product
 
 def index(request):
-    return render(request, "index.html")
+    products = Product.objects.all()
+    context = dict(
+        products=products
+    )
+    return render(request, "index.html", context)

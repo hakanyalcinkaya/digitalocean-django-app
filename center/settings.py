@@ -24,6 +24,8 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 DATABASE_URL = os.getenv("DATABASE_URL", None)  # Digital Ocan App Platformda Belirtilecek..
 SECRET_KEY = os.getenv("SECRET_KEY")
+DIGITAL_OCEAN_ACCESS_KEY = os.getenv("DIGITAL_OCEAN_ACCESS_KEY")
+DIGITAL_OCEAN_SECRET_KEY = os.getenv("DIGITAL_OCEAN_SECRET_KEY")
 
 print("*" * 30)
 print(f"{DEBUG = }")
@@ -39,6 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third Party Apps:
+    'storages',
+
+    # My Apps:
+    'product',
 ]
 
 MIDDLEWARE = [
@@ -139,7 +147,28 @@ STATICFILES_DIRS = [
     BASE_DIR / "local_static_files",
 ]
 
+# Media Files:
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID=DIGITAL_OCEAN_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY=DIGITAL_OCEAN_SECRET_KEY
+AWS_STORAGE_BUCKET_NAME='djangostrap'
+AWS_S3_ENDPOINT_URL='https://nyc3.digitaloceanspaces.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+AWS_LOCATION = 'medi_sub_dir'
+
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# https://djangostrap.nyc3.digitaloceanspaces.com
+# djangostrap
